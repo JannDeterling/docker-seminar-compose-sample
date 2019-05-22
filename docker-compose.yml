@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+  quotes-app:
+    build: .
+    networks:
+      - mongodb_quotesapp
+    ports:
+      - 80:8000
+    environment:
+      - SERVER_PORT=8000
+      - MONGO_DB_NAME=monogo
+      - MONGO_DB_PORT=27017
+    depends_on:
+      - monogo
+  monogo:
+    image: mongo:latest
+    networks:
+      - mongodb_quotesapp
+    volumes:
+      - db_mongo:/data/db
+
+networks:
+  mongodb_quotesapp:
+
+volumes:
+  db_mongo:
