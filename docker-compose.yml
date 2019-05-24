@@ -1,27 +1,12 @@
 version: '3.4'
 
-services:
-  quotes-app:
-    build: .
-    networks:
-      - mongodb_quotesapp
-    ports:
-      - 80:8000
-    environment:
-      - SERVER_PORT=8000
-      - MONGO_DB_NAME=monogo
-      - MONGO_DB_PORT=27017
-    depends_on:
-      - monogo
-  monogo:
-    image: mongo:latest
-    networks:
-      - mongodb_quotesapp
-    volumes:
-      - db_mongo:/data/db
-
-networks:
-  mongodb_quotesapp:
-
-volumes:
-  db_mongo:
+# Falls ihr infos braucht schaut unter https://docs.docker.com/compose/compose-file/ oder fragt uns!
+# Wir brauchen 2 Services
+# 1. Service 1 ist die Node-JS Application
+# 2. Service 2 ist eine MongoDB
+# 3. Beide sollten in einem Netzwerk sein, damit sie mit einander kommunizieren können.
+# 4. Service 1 sollte per localhost:80 erreichbar sein. Container Port ist setzbar durch die ENV "SERVER_PORT".
+# 5. Die MongoDB sollte vor Service 1 starten
+# 6. Service 1 braucht den service-namen sowie den port (27017 ist der std port) der MongoDB.
+# 7. Beides konfigurierbar durch die Variablen: "MONGO_DB_NAME" und "MONGO_DB_PORT"
+# 8. Damit die Daten persistent gespeichert werden sollte Service 2 ein volume erhalten auf den Container Pfad "/data/db".
